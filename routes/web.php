@@ -14,13 +14,20 @@ use App\Http\Controllers\Gateways\GoCardlessController;
 use App\Http\Controllers\Gateways\GoCardlessOAuthController;
 use App\Http\Controllers\Gateways\GoCardlessOAuthWebhookController;
 use App\Http\Controllers\Gateways\Mollie3dsController;
+use App\Http\Controllers\KlearcomDemoController;
 use App\Http\Controllers\SetupController;
 use App\Http\Controllers\SquareController;
 use App\Http\Controllers\StripeConnectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [BaseController::class, 'flutterRoute'])->middleware('guest');
+// Demo landing: Klearcom IVR console (not API/Swagger lab UI)
+Route::get('/', [KlearcomDemoController::class, 'ivrConsole']);
+Route::get('/demo', [KlearcomDemoController::class, 'ivrConsole']);
+Route::get('/ivr', [KlearcomDemoController::class, 'ivrConsole']);
+
+// Original Invoice Ninja Flutter admin UI kept under /app
+Route::get('/app', [BaseController::class, 'flutterRoute'])->middleware('guest');
 
 Route::get('setup', [SetupController::class, 'index'])->middleware('guest');
 Route::post('setup', [SetupController::class, 'doSetup'])->middleware('throttle:10,1')->middleware('guest');

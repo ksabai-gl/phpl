@@ -1,0 +1,12 @@
+{
+    "name": "invoiceninja/ubl_invoice",
+    "version": "3.0.2",
+    "description": "Windows-compatible stub for local runtime",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "InvoiceNinja\\Ubl\\": "src/"
+        }
+    }
+}
