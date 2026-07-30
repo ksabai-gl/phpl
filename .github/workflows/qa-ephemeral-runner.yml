@@ -1,7 +1,7 @@
 name: QA Ephemeral Runner
 
-# Managed by the Sustenance QA pipeline. Dispatched against a throwaway qa/* branch;
-# the fix branch only receives tests after this workflow reports success.
+# Managed by the Sustenance QA pipeline. version: 2
+# Dispatched against a throwaway qa/* branch; fix branch gets tests only after green.
 on:
   workflow_dispatch:
     inputs:
@@ -48,9 +48,17 @@ jobs:
           set +e
           case "$FRAMEWORK" in
             phpunit)
-              composer install --no-interaction --prefer-dist --no-progress
-              if [ -x vendor/bin/phpunit ]; then BIN=vendor/bin/phpunit; else BIN=phpunit; fi
-              $BIN $PATHS
+              # Scoped Unit overlays are pure PHPUnit\Framework\TestCase files — run via
+              # PHAR with --no-configuration so we do not need a full composer install
+              # (Laravel locks often fail on Actions due to platform/ext mismatches).
+              if [ -n "$PATHS" ]; then
+                curl -fsSL https://phar.phpunit.de/phpunit-11.phar -o /tmp/phpunit-11.phar
+                php /tmp/phpunit-11.phar --no-configuration $PATHS
+              else
+                composer install --no-interaction --prefer-dist --no-progress --ignore-platform-reqs
+                if [ -x vendor/bin/phpunit ]; then BIN=vendor/bin/phpunit; else BIN=phpunit; fi
+                $BIN
+              fi
               ;;
             angular)
               npm ci
