@@ -291,13 +291,18 @@
       width: 5px;
       border-radius: 999px;
       background: rgba(255,255,255,0.85);
-      animation: bounce 1.1s ease-in-out infinite;
       height: 18px;
     }
 
-    .bar:nth-child(odd) { animation-delay: 0.12s; }
-    .bar:nth-child(3n) { animation-delay: 0.28s; height: 34px; }
+    .bar:nth-child(3n) { height: 34px; }
     .bar:nth-child(4n) { height: 48px; }
+
+    .wave.is-active .bar {
+      animation: bounce 1.1s ease-in-out infinite;
+    }
+
+    .wave.is-active .bar:nth-child(odd) { animation-delay: 0.12s; }
+    .wave.is-active .bar:nth-child(3n) { animation-delay: 0.28s; }
 
     @keyframes bounce {
       0%, 100% { transform: scaleY(0.45); opacity: 0.55; }
@@ -679,6 +684,7 @@
   <script>
     const logEl = document.getElementById('log');
     const callState = document.getElementById('callState');
+    const waveEl = document.getElementById('wave');
     const dialBtn = document.getElementById('dialBtn');
     const nodes = [...document.querySelectorAll('.node')];
     let inCall = false;
@@ -703,6 +709,7 @@
     async function startCall() {
       if (inCall) return;
       inCall = true;
+      waveEl.classList.add('is-active');
       dialBtn.textContent = 'End test';
       logEl.innerHTML = '';
       const number = document.getElementById('phone').value.trim();
@@ -720,6 +727,7 @@
 
     function endCall() {
       inCall = false;
+      waveEl.classList.remove('is-active');
       dialBtn.textContent = 'Start test';
       callState.textContent = 'IDLE · ready to dial';
       line('<span class="t-info">CALL ENDED</span> Journey snapshot saved to Discovery');
