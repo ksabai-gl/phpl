@@ -53,4 +53,28 @@ class IvrConsoleJourneyStatusIdleGateTest extends TestCase
         $this->assertMatchesRegularExpression('/function endCall\(\)[\s\S]*?resetJourneyStatuses\(\);/', $blade);
         $this->assertMatchesRegularExpression('/async function startCall\(\)[\s\S]*?resetJourneyStatuses\(\);/', $blade);
     }
+
+    public function testJourneyHasExactlySixIdleNodes(): void
+    {
+        $journey = $this->journeyMarkup($this->blade());
+
+        $this->assertSame(6, preg_match_all('/data-step="\d+"/', $journey));
+        $this->assertSame(6, substr_count($journey, 'status pending'));
+        $this->assertSame(6, substr_count($journey, 'class="node"'));
+    }
+
+    public function testSetActiveAssignsWatchOnlyOnIdentityStep(): void
+    {
+        $blade = $this->blade();
+
+        $this->assertStringContainsString('function setActive(index)', $blade);
+        $this->assertMatchesRegularExpression(
+            '/function setActive\(index\)[\s\S]*?if \(i === 3\) setStatus\(n, \'warn\', \'Watch\'\)/',
+            $blade
+        );
+        $this->assertMatchesRegularExpression(
+            '/function setActive\(index\)[\s\S]*?setStatus\(n, \'pass\', \'Pass\'\)/',
+            $blade
+        );
+    }
 }
