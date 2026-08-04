@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Klearcom — IVR Journey Console</title>
+  <title>Klearcom ΓÇö IVR Journey Console</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -266,6 +266,11 @@
       color: var(--fail);
     }
 
+    .status.pending {
+      background: rgba(15, 39, 64, 0.06);
+      color: var(--muted);
+    }
+
     .console {
       display: grid;
       grid-template-rows: auto 1fr auto;
@@ -515,7 +520,7 @@
         <div class="mark">Kc</div>
         <div>
           <h1>Klearcom</h1>
-          <p>IVR Journey Console · Demo</p>
+          <p>IVR Journey Console ┬╖ Demo</p>
         </div>
       </div>
       <div class="pill-row">
@@ -534,26 +539,26 @@
         <div class="panel-head">
           <div>
             <h2>Customer IVR journey map</h2>
-            <span>Mapped from live call path · Banking support line</span>
+            <span>Mapped from live call path ┬╖ Banking support line</span>
           </div>
           <div class="live-badge"><i></i> Live discovery</div>
         </div>
         <div class="journey" id="journey">
-          <div class="node active" data-step="0">
+          <div class="node" data-step="0">
             <div class="step">01</div>
             <div>
               <h3>Inbound answer</h3>
-              <p>Welcome prompt · language selection</p>
+              <p>Welcome prompt ┬╖ language selection</p>
             </div>
-            <div class="status">Pass</div>
+            <div class="status pending">—</div>
           </div>
           <div class="node" data-step="1">
             <div class="step">02</div>
             <div>
               <h3>Main menu</h3>
-              <p>Press 1 Sales · 2 Support · 3 Balance</p>
+              <p>Press 1 Sales ┬╖ 2 Support ┬╖ 3 Balance</p>
             </div>
-            <div class="status">Pass</div>
+            <div class="status pending">—</div>
           </div>
           <div class="node" data-step="2">
             <div class="step">03</div>
@@ -561,7 +566,7 @@
               <h3>DTMF capture</h3>
               <p>Option 2 Support recognised</p>
             </div>
-            <div class="status">Pass</div>
+            <div class="status pending">—</div>
           </div>
           <div class="node" data-step="3">
             <div class="step">04</div>
@@ -569,7 +574,7 @@
               <h3>Identity check</h3>
               <p>Account PIN prompt playing</p>
             </div>
-            <div class="status warn">Watch</div>
+            <div class="status pending">—</div>
           </div>
           <div class="node" data-step="4">
             <div class="step">05</div>
@@ -577,15 +582,15 @@
               <h3>Queue / transfer</h3>
               <p>Route to Tier-1 agent group</p>
             </div>
-            <div class="status">Pass</div>
+            <div class="status pending">—</div>
           </div>
           <div class="node" data-step="5">
             <div class="step">06</div>
             <div>
               <h3>Voice quality</h3>
-              <p>MOS 4.2 · no silence gaps</p>
+              <p>MOS 4.2 ┬╖ no silence gaps</p>
             </div>
-            <div class="status">Pass</div>
+            <div class="status pending">—</div>
           </div>
         </div>
       </div>
@@ -594,12 +599,12 @@
         <div class="panel-head">
           <div>
             <h2>IVR test softphone</h2>
-            <span>Simulate a real caller · DTMF + prompt validation</span>
+            <span>Simulate a real caller ┬╖ DTMF + prompt validation</span>
           </div>
         </div>
         <div>
           <div class="wave" id="wave" aria-hidden="true">
-            <div class="wave-label" id="callState">IDLE · ready to dial</div>
+            <div class="wave-label" id="callState">IDLE ┬╖ ready to dial</div>
             <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
             <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
             <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
@@ -634,10 +639,10 @@
       <div class="panel metric">
         <div class="label">Regression health</div>
         <div class="value" id="healthScore">98.6%</div>
-        <div class="hint">Last full sweep 12 min ago · 214 paths</div>
+        <div class="hint">Last full sweep 12 min ago ┬╖ 214 paths</div>
         <div class="tests" style="margin-top:14px;padding:0">
           <div class="test-row"><span>Menu prompt match</span><span class="mono">US-East</span><span class="status">Pass</span></div>
-          <div class="test-row"><span>DTMF routing 2→Support</span><span class="mono">UK</span><span class="status">Pass</span></div>
+          <div class="test-row"><span>DTMF routing 2ΓåÆSupport</span><span class="mono">UK</span><span class="status">Pass</span></div>
           <div class="test-row"><span>Transfer to agent</span><span class="mono">IN</span><span class="status warn">Watch</span></div>
           <div class="test-row"><span>Toll-free reachability</span><span class="mono">DE</span><span class="status">Pass</span></div>
         </div>
@@ -647,7 +652,7 @@
         <div class="panel-head">
           <div>
             <h2>Discovery map</h2>
-            <span>Automated IVR tree · zero integration</span>
+            <span>Automated IVR tree ┬╖ zero integration</span>
           </div>
         </div>
         <div class="map">
@@ -673,7 +678,7 @@
       </div>
     </section>
 
-    <p class="footer-note">Klearcom demo console · IVR discovery, regression, and live journey validation — not an API lab screen.</p>
+    <p class="footer-note">Klearcom demo console ┬╖ IVR discovery, regression, and live journey validation ΓÇö not an API lab screen.</p>
   </div>
 
   <script>
@@ -691,8 +696,39 @@
       logEl.scrollTop = logEl.scrollHeight;
     }
 
+    function resetJourneyStatuses() {
+      nodes.forEach((n) => {
+        n.classList.remove('active');
+        const status = n.querySelector('.status');
+        if (!status) return;
+        status.className = 'status pending';
+        status.textContent = '—';
+      });
+      step = 0;
+    }
+
+    function setStatus(node, kind, label) {
+      const status = node.querySelector('.status');
+      if (!status) return;
+      if (kind === 'warn') status.className = 'status warn';
+      else if (kind === 'pending') status.className = 'status pending';
+      else status.className = 'status';
+      status.textContent = label;
+    }
+
     function setActive(index) {
-      nodes.forEach((n, i) => n.classList.toggle('active', i === index));
+      nodes.forEach((n, i) => {
+        n.classList.toggle('active', i === index);
+        if (i < index) {
+          setStatus(n, 'pass', 'Pass');
+        } else if (i === index) {
+          // Identity check stays Watch while the PIN step is live.
+          if (i === 3) setStatus(n, 'warn', 'Watch');
+          else setStatus(n, 'pass', 'Pass');
+        } else {
+          setStatus(n, 'pending', '—');
+        }
+      });
       step = index;
     }
 
@@ -703,27 +739,28 @@
     async function startCall() {
       if (inCall) return;
       inCall = true;
+      resetJourneyStatuses();
       dialBtn.textContent = 'End test';
       logEl.innerHTML = '';
       const number = document.getElementById('phone').value.trim();
-      callState.textContent = 'CONNECTING · live network';
+      callState.textContent = 'CONNECTING ┬╖ live network';
       line('<span class="t-info">[' + new Date().toLocaleTimeString() + ']</span> Dialing <span class="t-ok">' + number + '</span>');
       await sleep(700);
-      callState.textContent = 'IN CALL · capturing journey';
+      callState.textContent = 'IN CALL ┬╖ capturing journey';
       line('<span class="t-ok">ANSWERED</span> Welcome prompt detected (EN)');
       setActive(0);
       await sleep(900);
-      line('Prompt: “Thank you for calling. For sales press 1, support press 2…”');
+      line('Prompt: ΓÇ£Thank you for calling. For sales press 1, support press 2ΓÇªΓÇ¥');
       setActive(1);
-      line('<span class="t-warn">Awaiting DTMF</span> — use keypad to continue the journey');
+      line('<span class="t-warn">Awaiting DTMF</span> ΓÇö use keypad to continue the journey');
     }
 
     function endCall() {
       inCall = false;
       dialBtn.textContent = 'Start test';
-      callState.textContent = 'IDLE · ready to dial';
+      callState.textContent = 'IDLE ┬╖ ready to dial';
       line('<span class="t-info">CALL ENDED</span> Journey snapshot saved to Discovery');
-      setActive(0);
+      resetJourneyStatuses();
     }
 
     dialBtn.addEventListener('click', () => {
@@ -741,21 +778,21 @@
         line('<span class="t-ok">ROUTE OK</span> Support branch selected');
         setActive(3);
         await sleep(700);
-        line('Identity prompt playing… PIN requested');
+        line('Identity prompt playingΓÇª PIN requested');
         setActive(4);
         await sleep(700);
-        line('<span class="t-ok">TRANSFER</span> Tier-1 queue · estimated 18s');
+        line('<span class="t-ok">TRANSFER</span> Tier-1 queue ┬╖ estimated 18s');
         setActive(5);
         line('<span class="t-ok">MOS 4.2</span> Voice quality within threshold');
       } else if (key === '1') {
         setActive(2);
-        line('Sales branch selected · demo path continues on Support (2)');
+        line('Sales branch selected ┬╖ demo path continues on Support (2)');
       } else {
         line('<span class="t-warn">Option noted</span> for regression coverage');
       }
     });
 
-    line('<span class="t-info">Klearcom IVR Console ready</span> — start a test to walk the customer journey.');
+    line('<span class="t-info">Klearcom IVR Console ready</span> ΓÇö start a test to walk the customer journey.');
   </script>
 </body>
 </html>
