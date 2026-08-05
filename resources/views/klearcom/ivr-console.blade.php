@@ -684,8 +684,8 @@
   <script>
     const logEl = document.getElementById('log');
     const callState = document.getElementById('callState');
-    const dialBtn = document.getElementById('dialBtn');
     const waveEl = document.getElementById('wave');
+    const dialBtn = document.getElementById('dialBtn');
     const nodes = [...document.querySelectorAll('.node')];
     let inCall = false;
     let step = 0;
