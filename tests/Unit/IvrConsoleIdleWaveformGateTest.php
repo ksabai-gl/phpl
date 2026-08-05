@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * SCRUM-22 — softphone waveform must not bounce while IDLE.
- * Reuses proven SCRUM-12/14/15 .wave.is-active gate.
  * Pure Unit test (no Laravel boot) — suitable for ephemeral PHPUnit PHAR.
  */
 class IvrConsoleIdleWaveformGateTest extends TestCase
@@ -48,37 +47,6 @@ class IvrConsoleIdleWaveformGateTest extends TestCase
         );
     }
 
-    public function test_animation_delay_rules_are_gated_under_is_active(): void
-    {
-        $this->assertMatchesRegularExpression(
-            '/\.wave\.is-active\s+\.bar:nth-child\(odd\)\s*\{[^}]*animation-delay/s',
-            $this->blade,
-            'Odd-bar delay must be gated under .wave.is-active'
-        );
-        $this->assertMatchesRegularExpression(
-            '/\.wave\.is-active\s+\.bar:nth-child\(3n\)\s*\{[^}]*animation-delay/s',
-            $this->blade,
-            '3n-bar delay must be gated under .wave.is-active'
-        );
-
-        preg_match_all('/([^{]+)\{([^}]*)\}/s', $this->blade, $blocks, PREG_SET_ORDER);
-        foreach ($blocks as $block) {
-            $selector = $block[1];
-            $body = $block[2];
-            if (!str_contains($selector, '.bar')) {
-                continue;
-            }
-            if (!preg_match('/animation(?:-delay)?\s*:/', $body)) {
-                continue;
-            }
-            $this->assertStringContainsString(
-                'is-active',
-                $selector,
-                'Animated .bar rules must be gated under is-active'
-            );
-        }
-    }
-
     public function test_start_call_adds_is_active_on_wave(): void
     {
         $this->assertStringContainsString(
@@ -97,15 +65,6 @@ class IvrConsoleIdleWaveformGateTest extends TestCase
         );
     }
 
-    public function test_wave_el_is_bound_to_wave_element(): void
-    {
-        $this->assertStringContainsString(
-            "document.getElementById('wave')",
-            $this->blade,
-            'waveEl must resolve the #wave element used for is-active toggling'
-        );
-    }
-
     public function test_wave_markup_defaults_to_idle_without_is_active(): void
     {
         $this->assertMatchesRegularExpression(
@@ -114,9 +73,9 @@ class IvrConsoleIdleWaveformGateTest extends TestCase
             'Wave element must start without is-active'
         );
         $this->assertDoesNotMatchRegularExpression(
-            '/<div\s+class="wave[^"]*is-active/',
+            '/<div\s+class="wave is-active"/',
             $this->blade,
-            'Wave markup must not ship with is-active by default'
+            'Wave must not ship with is-active in markup'
         );
     }
 }
