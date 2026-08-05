@@ -5,8 +5,9 @@ namespace Tests\Unit;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Idle-state gate for IVR journey status badges (SCRUM-17).
- * Ensures the blade base markup does not paint Pass/Watch before Start test.
+ * Idle-state gate for IVR journey status badges (SCRUM-20).
+ * Ensures the blade base markup does not paint Pass/Watch before Start test,
+ * and that runtime helpers only assign Watch on the live identity step.
  */
 class IvrConsoleJourneyStatusIdleGateTest extends TestCase
 {
@@ -74,6 +75,30 @@ class IvrConsoleJourneyStatusIdleGateTest extends TestCase
         );
         $this->assertMatchesRegularExpression(
             '/function setActive\(index\)[\s\S]*?setStatus\(n, \'pass\', \'Pass\'\)/',
+            $blade
+        );
+    }
+
+    public function testIdentityNodeIsFourthZeroIndexedStep(): void
+    {
+        $journey = $this->journeyMarkup($this->blade());
+
+        $this->assertMatchesRegularExpression(
+            '/data-step="3"[\s\S]*?<h3>Identity check<\/h3>/',
+            $journey
+        );
+    }
+
+    public function testSetActivePendingAheadAndResetPendingClass(): void
+    {
+        $blade = $this->blade();
+
+        $this->assertMatchesRegularExpression(
+            '/function setActive\(index\)[\s\S]*?setStatus\(n, \'pending\'/',
+            $blade
+        );
+        $this->assertMatchesRegularExpression(
+            '/function resetJourneyStatuses\(\)[\s\S]*?status\.className = \'status pending\'/',
             $blade
         );
     }
