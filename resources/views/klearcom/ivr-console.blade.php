@@ -680,6 +680,7 @@
     const logEl = document.getElementById('log');
     const callState = document.getElementById('callState');
     const dialBtn = document.getElementById('dialBtn');
+    const phoneEl = document.getElementById('phone');
     const nodes = [...document.querySelectorAll('.node')];
     let inCall = false;
     let step = 0;
@@ -703,6 +704,7 @@
     async function startCall() {
       if (inCall) return;
       inCall = true;
+      if (phoneEl) phoneEl.disabled = true;
       dialBtn.textContent = 'End test';
       logEl.innerHTML = '';
       const number = document.getElementById('phone').value.trim();
@@ -720,6 +722,7 @@
 
     function endCall() {
       inCall = false;
+      if (phoneEl) phoneEl.disabled = false;
       dialBtn.textContent = 'Start test';
       callState.textContent = 'IDLE · ready to dial';
       line('<span class="t-info">CALL ENDED</span> Journey snapshot saved to Discovery');
