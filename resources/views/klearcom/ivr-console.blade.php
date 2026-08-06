@@ -266,6 +266,12 @@
       color: var(--fail);
     }
 
+    .status.idle,
+    .status.pending {
+      background: rgba(107, 114, 128, 0.12);
+      color: var(--muted);
+    }
+
     .console {
       display: grid;
       grid-template-rows: auto 1fr auto;
@@ -539,13 +545,13 @@
           <div class="live-badge"><i></i> Live discovery</div>
         </div>
         <div class="journey" id="journey">
-          <div class="node active" data-step="0">
+          <div class="node" data-step="0">
             <div class="step">01</div>
             <div>
               <h3>Inbound answer</h3>
               <p>Welcome prompt · language selection</p>
             </div>
-            <div class="status">Pass</div>
+            <div class="status idle">Idle</div>
           </div>
           <div class="node" data-step="1">
             <div class="step">02</div>
@@ -553,7 +559,7 @@
               <h3>Main menu</h3>
               <p>Press 1 Sales · 2 Support · 3 Balance</p>
             </div>
-            <div class="status">Pass</div>
+            <div class="status idle">Idle</div>
           </div>
           <div class="node" data-step="2">
             <div class="step">03</div>
@@ -561,7 +567,7 @@
               <h3>DTMF capture</h3>
               <p>Option 2 Support recognised</p>
             </div>
-            <div class="status">Pass</div>
+            <div class="status idle">Idle</div>
           </div>
           <div class="node" data-step="3">
             <div class="step">04</div>
@@ -569,7 +575,7 @@
               <h3>Identity check</h3>
               <p>Account PIN prompt playing</p>
             </div>
-            <div class="status warn">Watch</div>
+            <div class="status idle">Idle</div>
           </div>
           <div class="node" data-step="4">
             <div class="step">05</div>
@@ -577,7 +583,7 @@
               <h3>Queue / transfer</h3>
               <p>Route to Tier-1 agent group</p>
             </div>
-            <div class="status">Pass</div>
+            <div class="status idle">Idle</div>
           </div>
           <div class="node" data-step="5">
             <div class="step">06</div>
@@ -585,7 +591,7 @@
               <h3>Voice quality</h3>
               <p>MOS 4.2 · no silence gaps</p>
             </div>
-            <div class="status">Pass</div>
+            <div class="status idle">Idle</div>
           </div>
         </div>
       </div>
@@ -635,11 +641,11 @@
         <div class="label">Regression health</div>
         <div class="value" id="healthScore">98.6%</div>
         <div class="hint">Last full sweep 12 min ago · 214 paths</div>
-        <div class="tests" style="margin-top:14px;padding:0">
-          <div class="test-row"><span>Menu prompt match</span><span class="mono">US-East</span><span class="status">Pass</span></div>
-          <div class="test-row"><span>DTMF routing 2→Support</span><span class="mono">UK</span><span class="status">Pass</span></div>
-          <div class="test-row"><span>Transfer to agent</span><span class="mono">IN</span><span class="status warn">Watch</span></div>
-          <div class="test-row"><span>Toll-free reachability</span><span class="mono">DE</span><span class="status">Pass</span></div>
+                <div class="tests" id="regressionTests" style="margin-top:14px;padding:0">
+          <div class="test-row"><span>Menu prompt match</span><span class="mono">US-East</span><span class="status pending">Pending</span></div>
+          <div class="test-row"><span>DTMF routing 2→Support</span><span class="mono">UK</span><span class="status pending">Pending</span></div>
+          <div class="test-row"><span>Transfer to agent</span><span class="mono">IN</span><span class="status pending">Pending</span></div>
+          <div class="test-row"><span>Toll-free reachability</span><span class="mono">DE</span><span class="status pending">Pending</span></div>
         </div>
       </div>
 
@@ -662,7 +668,7 @@
 
       <div class="panel metric">
         <div class="label">Active alerts</div>
-        <div class="value" style="font-size:1.25rem;line-height:1.25">No critical IVR failures</div>
+        <div class="value" id="activeAlertsSummary" style="font-size:1.25rem;line-height:1.25">No critical IVR failures</div>
         <div class="hint">Monitoring menus, transfers, MOS, carrier reachability</div>
         <div class="tests" style="margin-top:14px;padding:0">
           <div class="test-row"><span>Unexpected script change</span><span class="mono">Clear</span><span class="status">Pass</span></div>
@@ -681,6 +687,8 @@
     const callState = document.getElementById('callState');
     const dialBtn = document.getElementById('dialBtn');
     const nodes = [...document.querySelectorAll('.node')];
+    const regressionStatuses = [...document.querySelectorAll('#regressionTests .status')];
+    const activeAlertsSummary = document.getElementById('activeAlertsSummary');
     let inCall = false;
     let step = 0;
 
@@ -691,9 +699,63 @@
       logEl.scrollTop = logEl.scrollHeight;
     }
 
+    function setBadge(el, text, kind) {
+      if (!el) return;
+      el.className = kind ? ('status ' + kind) : 'status';
+      el.textContent = text;
+      updateActiveAlertsSummary();
+    }
+
+    function updateActiveAlertsSummary() {
+      if (!activeAlertsSummary) return;
+      const statuses = [
+        ...document.querySelectorAll('#journey .status'),
+        ...document.querySelectorAll('#regressionTests .status'),
+      ];
+      const fail = statuses.filter((el) => el.classList.contains('fail')).length;
+      const warn = statuses.filter((el) => el.classList.contains('warn')).length;
+      if (fail > 0) {
+        activeAlertsSummary.textContent = fail === 1
+          ? '1 critical IVR failure'
+          : (fail + ' critical IVR failures');
+      } else if (warn > 0) {
+        activeAlertsSummary.textContent = warn === 1
+          ? '1 Watch alert active'
+          : (warn + ' Watch alerts active');
+      } else {
+        activeAlertsSummary.textContent = 'No critical IVR failures';
+      }
+    }
+
+    function resetJourneyBadges() {
+      nodes.forEach((n) => {
+        n.classList.remove('active');
+        setBadge(n.querySelector('.status'), 'Idle', 'idle');
+      });
+      step = 0;
+    }
+
+    function resetRegressionBadges() {
+      regressionStatuses.forEach((el) => setBadge(el, 'Pending', 'pending'));
+    }
+
     function setActive(index) {
-      nodes.forEach((n, i) => n.classList.toggle('active', i === index));
+      nodes.forEach((n, i) => {
+        n.classList.toggle('active', i === index);
+        const badge = n.querySelector('.status');
+        if (i < index) setBadge(badge, 'Pass', '');
+        else if (i === index) setBadge(badge, index === 3 ? 'Watch' : 'Running', index === 3 ? 'warn' : 'pending');
+        else setBadge(badge, 'Idle', 'idle');
+      });
       step = index;
+    }
+
+    function markRegressionPass(i) {
+      if (regressionStatuses[i]) setBadge(regressionStatuses[i], 'Pass', '');
+    }
+
+    function markRegressionWatch(i) {
+      if (regressionStatuses[i]) setBadge(regressionStatuses[i], 'Watch', 'warn');
     }
 
     function sleep(ms) {
@@ -703,6 +765,8 @@
     async function startCall() {
       if (inCall) return;
       inCall = true;
+      resetJourneyBadges();
+      resetRegressionBadges();
       dialBtn.textContent = 'End test';
       logEl.innerHTML = '';
       const number = document.getElementById('phone').value.trim();
@@ -711,6 +775,7 @@
       await sleep(700);
       callState.textContent = 'IN CALL · capturing journey';
       line('<span class="t-ok">ANSWERED</span> Welcome prompt detected (EN)');
+      markRegressionPass(0);
       setActive(0);
       await sleep(900);
       line('Prompt: “Thank you for calling. For sales press 1, support press 2…”');
@@ -723,7 +788,8 @@
       dialBtn.textContent = 'Start test';
       callState.textContent = 'IDLE · ready to dial';
       line('<span class="t-info">CALL ENDED</span> Journey snapshot saved to Discovery');
-      setActive(0);
+      resetJourneyBadges();
+      resetRegressionBadges();
     }
 
     dialBtn.addEventListener('click', () => {
@@ -739,14 +805,17 @@
         setActive(2);
         await sleep(500);
         line('<span class="t-ok">ROUTE OK</span> Support branch selected');
+        markRegressionPass(1);
         setActive(3);
         await sleep(700);
         line('Identity prompt playing… PIN requested');
+        markRegressionWatch(2);
         setActive(4);
         await sleep(700);
         line('<span class="t-ok">TRANSFER</span> Tier-1 queue · estimated 18s');
         setActive(5);
         line('<span class="t-ok">MOS 4.2</span> Voice quality within threshold');
+        markRegressionPass(3);
       } else if (key === '1') {
         setActive(2);
         line('Sales branch selected · demo path continues on Support (2)');
@@ -755,6 +824,7 @@
       }
     });
 
+    updateActiveAlertsSummary();
     line('<span class="t-info">Klearcom IVR Console ready</span> — start a test to walk the customer journey.');
   </script>
 </body>
