@@ -5,8 +5,8 @@ namespace Tests\Unit;
 use PHPUnit\Framework\TestCase;
 
 /**
- * SCRUM-25 - IVR softphone #phone must lock while a test call is active.
- * Pure Unit test (no Laravel boot) - suitable for ephemeral PHPUnit PHAR.
+ * SCRUM-25 — IVR softphone #phone must lock while a test call is active.
+ * Pure Unit test (no Laravel boot) — suitable for ephemeral PHPUnit PHAR.
  */
 class IvrConsolePhoneLockGateTest extends TestCase
 {
@@ -58,6 +58,29 @@ class IvrConsolePhoneLockGateTest extends TestCase
         );
     }
 
+    public function test_phone_lock_uses_null_safe_guards(): void
+    {
+        $this->assertMatchesRegularExpression(
+            '/if\s*\(\s*phoneEl\s*\)\s*phoneEl\.disabled\s*=\s*true/',
+            $this->blade,
+            'startCall must null-check phoneEl before disable'
+        );
+        $this->assertMatchesRegularExpression(
+            '/if\s*\(\s*phoneEl\s*\)\s*phoneEl\.disabled\s*=\s*false/',
+            $this->blade,
+            'endCall must null-check phoneEl before re-enable'
+        );
+    }
+
+    public function test_start_call_sets_in_call_before_disabling_phone(): void
+    {
+        $this->assertMatchesRegularExpression(
+            '/async function startCall\(\)\s*\{\s*if\s*\(\s*inCall\s*\)\s*return;\s*inCall\s*=\s*true;\s*if\s*\(\s*phoneEl\s*\)\s*phoneEl\.disabled\s*=\s*true;/s',
+            $this->blade,
+            'inCall must be set true before #phone is disabled'
+        );
+    }
+
     public function test_pad_still_gates_on_in_call(): void
     {
         $this->assertMatchesRegularExpression(
@@ -73,6 +96,20 @@ class IvrConsolePhoneLockGateTest extends TestCase
             '/async function startCall\(\)\s*\{\s*if\s*\(\s*inCall\s*\)\s*return;/s',
             $this->blade,
             'startCall must no-op when already in call'
+        );
+    }
+
+    public function test_dial_button_text_toggles_with_call_lifecycle(): void
+    {
+        $this->assertStringContainsString(
+            "dialBtn.textContent = 'End test'",
+            $this->blade,
+            'startCall must switch dial button to End test'
+        );
+        $this->assertStringContainsString(
+            "dialBtn.textContent = 'Start test'",
+            $this->blade,
+            'endCall must restore dial button to Start test'
         );
     }
 }
