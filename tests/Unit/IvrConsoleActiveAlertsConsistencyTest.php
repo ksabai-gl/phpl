@@ -89,6 +89,16 @@ class IvrConsoleActiveAlertsConsistencyTest extends TestCase
         );
     }
 
+    public function testRegressionFirstPaintDefaultsToPending(): void
+    {
+        $regression = $this->regressionMarkup();
+
+        $this->assertSame(4, preg_match_all('/class="status pending"/', $regression));
+        $this->assertSame(4, preg_match_all('/>Pending</', $regression));
+        $this->assertStringNotContainsString('class="status fail"', $regression);
+        $this->assertStringNotContainsString('>Fail<', $regression);
+    }
+
     public function testActiveAlertsSummaryUpdaterExistsAndReadsWatchFail(): void
     {
         $script = $this->scriptBlock();
@@ -101,5 +111,33 @@ class IvrConsoleActiveAlertsConsistencyTest extends TestCase
         $this->assertStringContainsString('updateActiveAlertsSummary();', $script);
         $this->assertStringContainsString('function markRegressionWatch(i)', $script);
         $this->assertStringContainsString("setBadge(regressionStatuses[i], 'Watch', 'warn')", $script);
+    }
+
+    public function testSetBadgeAlwaysRefreshesActiveAlertsSummary(): void
+    {
+        $script = $this->scriptBlock();
+
+        $this->assertMatchesRegularExpression(
+            '/function setBadge\s*\([^)]*\)\s*\{[\s\S]*?updateActiveAlertsSummary\s*\(\s*\)\s*;[\s\S]*?\}/',
+            $script
+        );
+        $this->assertStringContainsString("el.className = kind ? ('status ' + kind) : 'status'", $script);
+    }
+
+    public function testUpdaterScopesJourneyAndRegressionAndFormatsCounts(): void
+    {
+        $script = $this->scriptBlock();
+
+        $this->assertStringContainsString("document.querySelectorAll('#journey .status')", $script);
+        $this->assertStringContainsString("document.querySelectorAll('#regressionTests .status')", $script);
+        $this->assertStringContainsString("'1 critical IVR failure'", $script);
+        $this->assertStringContainsString("' critical IVR failures'", $script);
+        $this->assertStringContainsString("'1 Watch alert active'", $script);
+        $this->assertStringContainsString("' Watch alerts active'", $script);
+        // Boot-time sync so first paint cannot drift if markup is edited later.
+        $this->assertMatchesRegularExpression(
+            '/updateActiveAlertsSummary\s*\(\s*\)\s*;\s*\n\s*line\(/',
+            $script
+        );
     }
 }
