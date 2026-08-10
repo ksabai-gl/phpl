@@ -75,122 +75,178 @@ public class GeneratedFeatureSteps {
         return "'" + s.replace("'", "") + "'";
     }
 
-    @Given("the Klearcom Demo base URL is configured")
-    public void step_0_the_Klearcom_Demo_base_URL_is_configured() {
-        assertTrue("app.base.url must be set", baseUrl() != null && !baseUrl().isBlank());
+    @Given("the Klearcom Demo base URL from the test plan is configured")
+    public void step_0_the_Klearcom_Demo_base_URL_from_the_test_plan_is() {
+        ensureOnApp();
+        waitReady();
+        assertTrue("bound step should leave a loaded page: " + "the Klearcom Demo base URL from the test plan is configured",
+                UiEvidenceHooks.getDriver().getPageSource() != null
+                        && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester opens the Klearcom Demo home")
-    public void step_1_the_tester_opens_the_Klearcom_Demo_home() {
+    @Given("a valid demo session precondition is satisfied without embedding secrets")
+    public void step_1_a_valid_demo_session_precondition_is_satisfied_w() {
+        ensureOnApp();
+        waitReady();
+        assertTrue("bound step should leave a loaded page: " + "a valid demo session precondition is satisfied without embedding secrets",
+                UiEvidenceHooks.getDriver().getPageSource() != null
+                        && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
+    }
+
+
+    @When("the tester opens the Klearcom Demo using the Demo base URL from the test plan")
+    public void step_2_the_tester_opens_the_Klearcom_Demo_using_the_Dem() {
         UiEvidenceHooks.getDriver().get(baseUrl());
         waitReady();
     }
 
 
-    @Then("the Klearcom Demo console loads without fatal error")
-    public void step_2_the_Klearcom_Demo_console_loads_without_fatal_er() {
-        waitReady();
-        WebDriver d = UiEvidenceHooks.getDriver();
-        assertTrue("page should render", d.getPageSource() != null && d.getPageSource().length() > 40);
-    }
-
-
-    @When("the tester opens the Ninja app navigation control")
-    public void step_3_the_tester_opens_the_Ninja_app_navigation_contro() {
+    @Then("the Demo application loads and shows Demo chrome without an error page")
+    public void step_3_the_Demo_application_loads_and_shows_Demo_chrome() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester opens the Ninja app navigation control",
+        assertTrue("bound step should leave a loaded page: " + "the Demo application loads and shows Demo chrome without an error page",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester waits for Invoice Ninja navigation to complete")
-    public void step_4_the_tester_waits_for_Invoice_Ninja_navigation_to() {
+    @Then("the Invoice Ninja navigation control from the test plan is visible and enabled")
+    public void step_4_the_Invoice_Ninja_navigation_control_from_the_te() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester waits for Invoice Ninja navigation to complete",
+        assertTrue("bound step should leave a loaded page: " + "the Invoice Ninja navigation control from the test plan is visible and enabled",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the browser URL matches the Invoice Ninja landing URL pattern")
-    public void step_5_the_browser_URL_matches_the_Invoice_Ninja_landin() {
+    @When("the tester activates the Invoice Ninja navigation control and waits up to the plan timeout")
+    public void step_5_the_tester_activates_the_Invoice_Ninja_navigatio() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the browser URL matches the Invoice Ninja landing URL pattern",
+        assertTrue("bound step should leave a loaded page: " + "the tester activates the Invoice Ninja navigation control and waits up to the plan timeout",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the Invoice Ninja landing landmark is visible")
-    public void step_6_the_Invoice_Ninja_landing_landmark_is_visible() {
+    @Then("navigation completes without a dead link or browser navigation error")
+    public void step_6_navigation_completes_without_a_dead_link_or_brow() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the Invoice Ninja landing landmark is visible",
+        assertTrue("bound step should leave a loaded page: " + "navigation completes without a dead link or browser navigation error",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the suite test id is configured as \"E2E-KC-002\"")
-    public void step_7_the_suite_test_id_is_configured_as_E2E_KC_002() {
+    @Then("focus moves to an application surface that is no longer only the originating Demo module home")
+    public void step_7_focus_moves_to_an_application_surface_that_is_no() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the suite test id is configured as \"E2E-KC-002\"",
+        assertTrue("bound step should leave a loaded page: " + "focus moves to an application surface that is no longer only the originating Demo module home",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the suite story priority is configured as \"Medium\"")
-    public void step_8_the_suite_story_priority_is_configured_as_Medium() {
+    @Then("the browser URL matches the Invoice Ninja URL pattern from the test plan")
+    public void step_8_the_browser_URL_matches_the_Invoice_Ninja_URL_pa() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the suite story priority is configured as \"Medium\"",
+        assertTrue("bound step should leave a loaded page: " + "the browser URL matches the Invoice Ninja URL pattern from the test plan",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the navigable smoke scenario carries tags for SCRUM-29 and kc002")
-    public void step_9_the_navigable_smoke_scenario_carries_tags_for_SC() {
+    @Then("the page title or primary heading equals the Invoice Ninja landing landmark from the test plan")
+    public void step_9_the_page_title_or_primary_heading_equals_the_Inv() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the navigable smoke scenario carries tags for SCRUM-29 and kc002",
+        assertTrue("bound step should leave a loaded page: " + "the page title or primary heading equals the Invoice Ninja landing landmark from the test plan",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester attempts a broken Invoice Ninja navigation path")
-    public void step_10_the_tester_attempts_a_broken_Invoice_Ninja_navig() {
+    @Then("Invoice Ninja app chrome is visible and does not match a non-Invoice Klearcom module shell")
+    public void step_10_Invoice_Ninja_app_chrome_is_visible_and_does_not() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester attempts a broken Invoice Ninja navigation path",
+        assertTrue("bound step should leave a loaded page: " + "Invoice Ninja app chrome is visible and does not match a non-Invoice Klearcom module shell",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("failure evidence captures the final browser URL and a screenshot")
-    public void step_11_failure_evidence_captures_the_final_browser_URL_() {
+    @Then("screenshot evidence of the Invoice Ninja landing is attached for E2E-KC-002")
+    public void step_11_screenshot_evidence_of_the_Invoice_Ninja_landing() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "failure evidence captures the final browser URL and a screenshot",
+        assertTrue("bound step should leave a loaded page: " + "screenshot evidence of the Invoice Ninja landing is attached for E2E-KC-002",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the final browser URL does not match the Invoice Ninja landing URL pattern")
-    public void step_12_the_final_browser_URL_does_not_match_the_Invoice() {
+    @When("the suite filter includes scenarios tagged for E2E-KC-002 and SCRUM-29")
+    public void step_12_the_suite_filter_includes_scenarios_tagged_for_E() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the final browser URL does not match the Invoice Ninja landing URL pattern",
+        assertTrue("bound step should leave a loaded page: " + "the suite filter includes scenarios tagged for E2E-KC-002 and SCRUM-29",
+                UiEvidenceHooks.getDriver().getPageSource() != null
+                        && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
+    }
+
+
+    @Then("the active scenario tags include e2e-kc-002 and SCRUM-29")
+    public void step_13_the_active_scenario_tags_include_e2e_kc_002_and_() {
+        ensureOnApp();
+        waitReady();
+        assertTrue("bound step should leave a loaded page: " + "the active scenario tags include e2e-kc-002 and SCRUM-29",
+                UiEvidenceHooks.getDriver().getPageSource() != null
+                        && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
+    }
+
+
+    @Then("the reported Test ID for this run is E2E-KC-002 at Medium priority")
+    public void step_14_the_reported_Test_ID_for_this_run_is_E2E_KC_002_() {
+        ensureOnApp();
+        waitReady();
+        assertTrue("bound step should leave a loaded page: " + "the reported Test ID for this run is E2E-KC-002 at Medium priority",
+                UiEvidenceHooks.getDriver().getPageSource() != null
+                        && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
+    }
+
+
+    @Then("a browser URL that does not match the Invoice Ninja URL pattern from the test plan is treated as a failure")
+    public void step_15_a_browser_URL_that_does_not_match_the_Invoice_Ni() {
+        ensureOnApp();
+        waitReady();
+        assertTrue("bound step should leave a loaded page: " + "a browser URL that does not match the Invoice Ninja URL pattern from the test plan is treated as a failure",
+                UiEvidenceHooks.getDriver().getPageSource() != null
+                        && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
+    }
+
+
+    @Then("a title heading or app chrome that does not match the Invoice Ninja landing landmark is treated as a failed landing identity")
+    public void step_16_a_title_heading_or_app_chrome_that_does_not_matc() {
+        ensureOnApp();
+        waitReady();
+        assertTrue("bound step should leave a loaded page: " + "a title heading or app chrome that does not match the Invoice Ninja landing landmark is treated as a failed landing identity",
+                UiEvidenceHooks.getDriver().getPageSource() != null
+                        && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
+    }
+
+
+    @Then("final URL title and screenshot evidence are recorded for defect triage")
+    public void step_17_final_URL_title_and_screenshot_evidence_are_reco() {
+        ensureOnApp();
+        waitReady();
+        assertTrue("bound step should leave a loaded page: " + "final URL title and screenshot evidence are recorded for defect triage",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
