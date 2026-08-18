@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use PHPUnit\Framework\TestCase;
 
 /**
- * SCRUM-22 — P4 edge / regression markers for idle waveform gate.
+ * SCRUM-22 / SCRUM-15 — P4 edge / regression markers for idle waveform gate.
  * Pure Unit test (no Laravel boot) — suitable for ephemeral PHPUnit PHAR.
  */
 class IvrConsoleIdleWaveformEdgeCasesTest extends TestCase
@@ -87,6 +87,26 @@ class IvrConsoleIdleWaveformEdgeCasesTest extends TestCase
             '/dialBtn\.addEventListener\(\s*[\'"]click[\'"]\s*,\s*\(\)\s*=>\s*\{\s*if\s*\(\s*inCall\s*\)\s*endCall\(\);\s*else\s*startCall\(\);/s',
             $this->blade,
             'Dial button must toggle startCall/endCall (impact: softphone control)'
+        );
+    }
+
+    /** SCRUM-15 — waveform must pause during in-call idle (Awaiting DTMF). */
+    public function test_awaiting_dtmf_clears_is_active_while_in_call(): void
+    {
+        $this->assertMatchesRegularExpression(
+            '/Awaiting DTMF[\s\S]{0,200}waveEl\.classList\.remove\(\s*[\'"]is-active[\'"]\s*\)/s',
+            $this->blade,
+            'After Awaiting DTMF, is-active must be cleared (idle within connected call)'
+        );
+    }
+
+    /** SCRUM-15 — DTMF activity must resume waveform animation. */
+    public function test_dtmf_pad_readds_is_active_on_keypress(): void
+    {
+        $this->assertMatchesRegularExpression(
+            '/getElementById\(\s*[\'"]pad[\'"]\s*\)[\s\S]{0,250}waveEl\.classList\.add\(\s*[\'"]is-active[\'"]\s*\)/s',
+            $this->blade,
+            'DTMF pad handler must re-add is-active when keys are pressed'
         );
     }
 }

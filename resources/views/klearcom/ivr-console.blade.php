@@ -706,6 +706,10 @@
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
+    function setWaveActive(active) {
+      waveEl.classList.toggle('is-active', !!active);
+    }
+
     async function startCall() {
       if (inCall) return;
       inCall = true;
@@ -723,6 +727,8 @@
       line('Prompt: “Thank you for calling. For sales press 1, support press 2…”');
       setActive(1);
       line('<span class="t-warn">Awaiting DTMF</span> — use keypad to continue the journey');
+      // SCRUM-15: connected but idle (no audio/DTMF) — pause waveform
+      waveEl.classList.remove('is-active');
     }
 
     function endCall() {
@@ -742,6 +748,8 @@
     document.getElementById('pad').addEventListener('click', async (event) => {
       const key = event.target.closest('.key')?.dataset.key;
       if (!key || !inCall) return;
+      // SCRUM-15: DTMF = call activity — resume waveform animation
+      waveEl.classList.add('is-active');
       line('DTMF <span class="t-ok">' + key + '</span> sent');
       if (key === '2' && step <= 1) {
         setActive(2);
@@ -758,8 +766,11 @@
       } else if (key === '1') {
         setActive(2);
         line('Sales branch selected · demo path continues on Support (2)');
+        // back to in-call idle await
+        waveEl.classList.remove('is-active');
       } else {
         line('<span class="t-warn">Option noted</span> for regression coverage');
+        waveEl.classList.remove('is-active');
       }
     });
 
