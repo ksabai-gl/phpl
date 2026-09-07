@@ -85,178 +85,168 @@ public class GeneratedFeatureSteps {
     }
 
 
-    @Given("an existing client is available")
-    public void step_1_an_existing_client_is_available() {
+    @Given("an existing client record is available")
+    public void step_1_an_existing_client_record_is_available() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "an existing client is available",
+        assertTrue("bound step should leave a loaded page: " + "an existing client record is available",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester creates a new invoice for that client")
-    public void step_2_the_tester_creates_a_new_invoice_for_that_client() {
+    @When("the tester creates a new invoice for the existing client")
+    public void step_2_the_tester_creates_a_new_invoice_for_the_existin() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester creates a new invoice for that client",
+        assertTrue("bound step should leave a loaded page: " + "the tester creates a new invoice for the existing client",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester adds a line item with description \"Consulting Service\" quantity 1 and unit price 100.00")
-    public void step_3_the_tester_adds_a_line_item_with_description_Con() {
+    @When("adds a line item with description \"Consulting\" quantity \"1\" and unit price \"100.00\"")
+    public void step_3_adds_a_line_item_with_description_Consulting_qua() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester adds a line item with description \"Consulting Service\" quantity 1 and unit price 100.00",
+        assertTrue("bound step should leave a loaded page: " + "adds a line item with description \"Consulting\" quantity \"1\" and unit price \"100.00\"",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester saves the invoice")
-    public void step_4_the_tester_saves_the_invoice() {
+    @When("saves the invoice")
+    public void step_4_saves_the_invoice() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester saves the invoice",
+        assertTrue("bound step should leave a loaded page: " + "saves the invoice",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the invoice detail view shows exactly 1 line item")
-    public void step_5_the_invoice_detail_view_shows_exactly_1_line_ite() {
+    @Then("the invoice detail view shows client name matching the existing client")
+    public void step_5_the_invoice_detail_view_shows_client_name_matchi() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the invoice detail view shows exactly 1 line item",
+        assertTrue("bound step should leave a loaded page: " + "the invoice detail view shows client name matching the existing client",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the invoice total amount displayed is \"100.00\"")
-    public void step_6_the_invoice_total_amount_displayed_is_100_00() {
+    @Then("the invoice detail view shows line item \"Consulting\" with quantity \"1\" and unit price \"100.00\"")
+    public void step_6_the_invoice_detail_view_shows_line_item_Consulti() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the invoice total amount displayed is \"100.00\"",
+        assertTrue("bound step should leave a loaded page: " + "the invoice detail view shows line item \"Consulting\" with quantity \"1\" and unit price \"100.00\"",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester adds a line item with description \"Item A\" quantity 2 and unit price 50.00")
-    public void step_7_the_tester_adds_a_line_item_with_description_Ite() {
+    @Then("the invoice total equals \"100.00\"")
+    public void step_7_the_invoice_total_equals_100_00() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester adds a line item with description \"Item A\" quantity 2 and unit price 50.00",
+        assertTrue("bound step should leave a loaded page: " + "the invoice total equals \"100.00\"",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester adds a line item with description \"Item B\" quantity 1 and unit price 25.00")
-    public void step_8_the_tester_adds_a_line_item_with_description_Ite() {
+    @When("adds the following line items:")
+    public void step_8_adds_the_following_line_items() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester adds a line item with description \"Item B\" quantity 1 and unit price 25.00",
+        assertTrue("bound step should leave a loaded page: " + "adds the following line items:",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the invoice total amount displayed is \"125.00\"")
-    public void step_9_the_invoice_total_amount_displayed_is_125_00() {
+    @Then("the invoice detail view shows all 3 line items with correct values")
+    public void step_9_the_invoice_detail_view_shows_all_3_line_items_w() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the invoice total amount displayed is \"125.00\"",
+        assertTrue("bound step should leave a loaded page: " + "the invoice detail view shows all 3 line items with correct values",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Given("an invoice exists with the following line items")
-    public void step_10_an_invoice_exists_with_the_following_line_items() {
+    @Then("the invoice total equals \"350.00\"")
+    public void step_10_the_invoice_total_equals_350_00() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "an invoice exists with the following line items",
+        assertTrue("bound step should leave a loaded page: " + "the invoice total equals \"350.00\"",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester opens that invoice from the invoice list")
-    public void step_11_the_tester_opens_that_invoice_from_the_invoice_l() {
+    @Given("a client exists with name \"Acme Corp\", email \"billing@acme.test\" and a known billing address")
+    public void step_11_a_client_exists_with_name_Acme_Corp_email_billin() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester opens that invoice from the invoice list",
+        assertTrue("bound step should leave a loaded page: " + "a client exists with name \"Acme Corp\", email \"billing@acme.test\" and a known billing address",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("every displayed line item description quantity and unit price matches the entered values exactly")
-    public void step_12_every_displayed_line_item_description_quantity_a() {
+    @Given("an invoice has been created for that client")
+    public void step_12_an_invoice_has_been_created_for_that_client() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "every displayed line item description quantity and unit price matches the entered values exactly",
+        assertTrue("bound step should leave a loaded page: " + "an invoice has been created for that client",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Given("a known client \"SCRUM96 Client\" with a known email exists")
-    public void step_13_a_known_client_SCRUM96_Client_with_a_known_email() {
+    @When("the tester opens the invoice")
+    public void step_13_the_tester_opens_the_invoice() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "a known client \"SCRUM96 Client\" with a known email exists",
+        assertTrue("bound step should leave a loaded page: " + "the tester opens the invoice",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester creates a new invoice for client \"SCRUM96 Client\" with one line item")
-    public void step_14_the_tester_creates_a_new_invoice_for_client_SCRU() {
+    @When("the tester opens the client's own record page")
+    public void step_14_the_tester_opens_the_client_s_own_record_page() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester creates a new invoice for client \"SCRUM96 Client\" with one line item",
+        assertTrue("bound step should leave a loaded page: " + "the tester opens the client's own record page",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester opens the saved invoice from the invoice list")
-    public void step_15_the_tester_opens_the_saved_invoice_from_the_invo() {
+    @Then("the client name, email, and billing address on the invoice match the client record exactly")
+    public void step_15_the_client_name_email_and_billing_address_on_the() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester opens the saved invoice from the invoice list",
+        assertTrue("bound step should leave a loaded page: " + "the client name, email, and billing address on the invoice match the client record exactly",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the invoice detail view displays client \"SCRUM96 Client\" with the matching email")
-    public void step_16_the_invoice_detail_view_displays_client_SCRUM96_() {
+    @Given("a new invoice has just been created and saved for an existing client")
+    public void step_16_a_new_invoice_has_just_been_created_and_saved_fo() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the invoice detail view displays client \"SCRUM96 Client\" with the matching email",
-                UiEvidenceHooks.getDriver().getPageSource() != null
-                        && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
-    }
-
-
-    @Given("the tester has just created and saved a new invoice for that client")
-    public void step_17_the_tester_has_just_created_and_saved_a_new_invo() {
-        ensureOnApp();
-        waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester has just created and saved a new invoice for that client",
+        assertTrue("bound step should leave a loaded page: " + "a new invoice has just been created and saved for an existing client",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
     @When("the tester navigates to the invoice list view")
-    public void step_18_the_tester_navigates_to_the_invoice_list_view() {
+    public void step_17_the_tester_navigates_to_the_invoice_list_view() {
         ensureOnApp();
         waitReady();
         assertTrue("bound step should leave a loaded page: " + "the tester navigates to the invoice list view",
@@ -265,111 +255,101 @@ public class GeneratedFeatureSteps {
     }
 
 
-    @When("the tester locates the invoice by client name")
-    public void step_19_the_tester_locates_the_invoice_by_client_name() {
+    @Then("the invoice list row for that invoice shows the correct client name, dates, and total amount")
+    public void step_18_the_invoice_list_row_for_that_invoice_shows_the_() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester locates the invoice by client name",
+        assertTrue("bound step should leave a loaded page: " + "the invoice list row for that invoice shows the correct client name, dates, and total amount",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the invoice list row shows the correct client name invoice number status and total amount")
-    public void step_20_the_invoice_list_row_shows_the_correct_client_na() {
+    @Given("at least one invoice already exists in the invoice list")
+    public void step_19_at_least_one_invoice_already_exists_in_the_invoi() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the invoice list row shows the correct client name invoice number status and total amount",
+        assertTrue("bound step should leave a loaded page: " + "at least one invoice already exists in the invoice list",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the invoice detail view displays the client name every line item and the total amount matching the created record")
-    public void step_21_the_invoice_detail_view_displays_the_client_name() {
+    @When("the tester opens the invoice from the invoice list")
+    public void step_20_the_tester_opens_the_invoice_from_the_invoice_li() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the invoice detail view displays the client name every line item and the total amount matching the created record",
+        assertTrue("bound step should leave a loaded page: " + "the tester opens the invoice from the invoice list",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester creates a new invoice for that client with one line item")
-    public void step_22_the_tester_creates_a_new_invoice_for_that_client() {
+    @Then("the invoice detail page renders header, client details, line items, and totals without error")
+    public void step_21_the_invoice_detail_page_renders_header_client_de() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester creates a new invoice for that client with one line item",
+        assertTrue("bound step should leave a loaded page: " + "the invoice detail page renders header, client details, line items, and totals without error",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the invoice status is displayed as \"Draft\" on the invoice list row")
-    public void step_23_the_invoice_status_is_displayed_as_Draft_on_the_() {
+    @When("the tester creates a new invoice for the existing client without changing its default status")
+    public void step_22_the_tester_creates_a_new_invoice_for_the_existin() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the invoice status is displayed as \"Draft\" on the invoice list row",
+        assertTrue("bound step should leave a loaded page: " + "the tester creates a new invoice for the existing client without changing its default status",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Then("the invoice status is displayed as \"Draft\" on the invoice detail view")
-    public void step_24_the_invoice_status_is_displayed_as_Draft_on_the_() {
+    @Then("the invoice list shows status \"Draft\" for the new invoice")
+    public void step_23_the_invoice_list_shows_status_Draft_for_the_new_() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the invoice status is displayed as \"Draft\" on the invoice detail view",
+        assertTrue("bound step should leave a loaded page: " + "the invoice list shows status \"Draft\" for the new invoice",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Given("a known client \"SCRUM96 Unique Client\" with a known email exists")
-    public void step_25_a_known_client_SCRUM96_Unique_Client_with_a_know() {
+    @Then("the invoice detail page shows status \"Draft\"")
+    public void step_24_the_invoice_detail_page_shows_status_Draft() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "a known client \"SCRUM96 Unique Client\" with a known email exists",
+        assertTrue("bound step should leave a loaded page: " + "the invoice detail page shows status \"Draft\"",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Given("the tester has just created and saved a new invoice for client \"SCRUM96 Unique Client\"")
-    public void step_26_the_tester_has_just_created_and_saved_a_new_invo() {
+    @When("adds a line item with description \"Misc\" and a blank quantity")
+    public void step_25_adds_a_line_item_with_description_Misc_and_a_bla() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester has just created and saved a new invoice for client \"SCRUM96 Unique Client\"",
+        assertTrue("bound step should leave a loaded page: " + "adds a line item with description \"Misc\" and a blank quantity",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @Given("another unrelated client and invoice exist")
-    public void step_27_another_unrelated_client_and_invoice_exist() {
+    @When("attempts to save the invoice")
+    public void step_26_attempts_to_save_the_invoice() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "another unrelated client and invoice exist",
+        assertTrue("bound step should leave a loaded page: " + "attempts to save the invoice",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
 
 
-    @When("the tester searches the invoice list for client name \"SCRUM96 Unique Client\"")
-    public void step_28_the_tester_searches_the_invoice_list_for_client_() {
+    @Then("the application either shows a validation message for invalid quantity")
+    public void step_27_the_application_either_shows_a_validation_messag() {
         ensureOnApp();
         waitReady();
-        assertTrue("bound step should leave a loaded page: " + "the tester searches the invoice list for client name \"SCRUM96 Unique Client\"",
-                UiEvidenceHooks.getDriver().getPageSource() != null
-                        && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
-    }
-
-
-    @Then("only the invoice belonging to \"SCRUM96 Unique Client\" is displayed with correct total and status")
-    public void step_29_only_the_invoice_belonging_to_SCRUM96_Unique_Cli() {
-        ensureOnApp();
-        waitReady();
-        assertTrue("bound step should leave a loaded page: " + "only the invoice belonging to \"SCRUM96 Unique Client\" is displayed with correct total and status",
+        assertTrue("bound step should leave a loaded page: " + "the application either shows a validation message for invalid quantity",
                 UiEvidenceHooks.getDriver().getPageSource() != null
                         && UiEvidenceHooks.getDriver().getPageSource().length() > 40);
     }
