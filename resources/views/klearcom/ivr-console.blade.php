@@ -709,17 +709,19 @@
     async function startCall() {
       if (inCall) return;
       inCall = true;
-      waveEl.classList.add('is-active');
+      if (waveEl) waveEl.classList.add('is-active');
       dialBtn.textContent = 'End test';
       logEl.innerHTML = '';
       const number = document.getElementById('phone').value.trim();
       callState.textContent = 'CONNECTING · live network';
       line('<span class="t-info">[' + new Date().toLocaleTimeString() + ']</span> Dialing <span class="t-ok">' + number + '</span>');
       await sleep(700);
+      if (!inCall) return;
       callState.textContent = 'IN CALL · capturing journey';
       line('<span class="t-ok">ANSWERED</span> Welcome prompt detected (EN)');
       setActive(0);
       await sleep(900);
+      if (!inCall) return;
       line('Prompt: “Thank you for calling. For sales press 1, support press 2…”');
       setActive(1);
       line('<span class="t-warn">Awaiting DTMF</span> — use keypad to continue the journey');
@@ -727,7 +729,7 @@
 
     function endCall() {
       inCall = false;
-      waveEl.classList.remove('is-active');
+      if (waveEl) waveEl.classList.remove('is-active');
       dialBtn.textContent = 'Start test';
       callState.textContent = 'IDLE · ready to dial';
       line('<span class="t-info">CALL ENDED</span> Journey snapshot saved to Discovery');
