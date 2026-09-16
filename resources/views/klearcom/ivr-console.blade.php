@@ -387,6 +387,22 @@
     }
 
     .key:hover { background: var(--sand); }
+
+    .pad.is-disabled .key {
+      cursor: not-allowed;
+      opacity: 0.48;
+      background: #eef2f4;
+      color: var(--muted);
+      box-shadow: none;
+    }
+
+    .pad.is-disabled .key:hover {
+      background: #eef2f4;
+    }
+
+    .pad.is-disabled .key small {
+      color: rgba(91, 107, 122, 0.7);
+    }
     .key small {
       display: block;
       color: var(--muted);
@@ -687,6 +703,17 @@
     const waveEl = document.getElementById('wave');
     const dialBtn = document.getElementById('dialBtn');
     const nodes = [...document.querySelectorAll('.node')];
+
+    const padEl = document.getElementById('pad');
+
+    function setPadEnabled(enabled) {
+      padEl.classList.toggle('is-disabled', !enabled);
+      padEl.setAttribute('aria-disabled', enabled ? 'false' : 'true');
+      padEl.querySelectorAll('.key').forEach((keyEl) => {
+        keyEl.tabIndex = enabled ? 0 : -1;
+        keyEl.setAttribute('aria-disabled', enabled ? 'false' : 'true');
+      });
+    }
     let inCall = false;
     let step = 0;
 
@@ -709,6 +736,7 @@
     async function startCall() {
       if (inCall) return;
       inCall = true;
+      setPadEnabled(true);
       waveEl.classList.add('is-active');
       dialBtn.textContent = 'End test';
       logEl.innerHTML = '';
@@ -727,6 +755,7 @@
 
     function endCall() {
       inCall = false;
+      setPadEnabled(false);
       waveEl.classList.remove('is-active');
       dialBtn.textContent = 'Start test';
       callState.textContent = 'IDLE · ready to dial';
@@ -739,9 +768,13 @@
       else startCall();
     });
 
-    document.getElementById('pad').addEventListener('click', async (event) => {
+    padEl.addEventListener('click', async (event) => {
       const key = event.target.closest('.key')?.dataset.key;
-      if (!key || !inCall) return;
+      if (!key) return;
+      if (!inCall) {
+        line('<span class="t-warn">Start a test first</span> — keypad is disabled until the journey is live');
+        return;
+      }
       line('DTMF <span class="t-ok">' + key + '</span> sent');
       if (key === '2' && step <= 1) {
         setActive(2);
@@ -763,6 +796,7 @@
       }
     });
 
+    setPadEnabled(false);
     line('<span class="t-info">Klearcom IVR Console ready</span> — start a test to walk the customer journey.');
   </script>
 </body>
