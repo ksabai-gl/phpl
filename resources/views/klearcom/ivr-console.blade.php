@@ -511,7 +511,15 @@
       .hero, .grid-3 { grid-template-columns: 1fr; }
       .topbar { flex-direction: column; align-items: flex-start; }
     }
-  </style>
+.pad.is-idle .key {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: var(--mist);
+}
+.pad.is-idle .key:hover {
+  background: var(--mist);
+}
+</style>
 </head>
 <body>
   <div class="shell">
@@ -690,12 +698,16 @@
     let inCall = false;
     let step = 0;
 
-    function line(html) {
-      const row = document.createElement('div');
-      row.innerHTML = html;
-      logEl.appendChild(row);
-      logEl.scrollTop = logEl.scrollHeight;
-    }
+    function function line(html) {
+  const row = document.createElement('div');
+  row.innerHTML = html;
+  logEl.appendChild(row);
+  logEl.scrollTop = logEl.scrollHeight;
+  if (!window.__softphoneBooted) {
+    window.__softphoneBooted = true;
+    ensurePadKeyHandler();
+  }
+}
 
     function setActive(index) {
       nodes.forEach((n, i) => n.classList.toggle('active', i === index));
@@ -706,33 +718,35 @@
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
-    async function startCall() {
-      if (inCall) return;
-      inCall = true;
-      waveEl.classList.add('is-active');
-      dialBtn.textContent = 'End test';
-      logEl.innerHTML = '';
-      const number = document.getElementById('phone').value.trim();
-      callState.textContent = 'CONNECTING · live network';
-      line('<span class="t-info">[' + new Date().toLocaleTimeString() + ']</span> Dialing <span class="t-ok">' + number + '</span>');
-      await sleep(700);
-      callState.textContent = 'IN CALL · capturing journey';
-      line('<span class="t-ok">ANSWERED</span> Welcome prompt detected (EN)');
-      setActive(0);
-      await sleep(900);
-      line('Prompt: “Thank you for calling. For sales press 1, support press 2…”');
-      setActive(1);
-      line('<span class="t-warn">Awaiting DTMF</span> — use keypad to continue the journey');
-    }
+    async function async function startCall() {
+  if (inCall) return;
+  inCall = true;
+  setPadIdle(false);
+  waveEl.classList.add('is-active');
+  dialBtn.textContent = 'End test';
+  logEl.innerHTML = '';
+  const number = document.getElementById('phone').value.trim();
+  callState.textContent = 'CONNECTING · live network';
+  line('<span class="t-info">[' + new Date().toLocaleTimeString() + ']</span> Dialing <span class="t-ok">' + number + '</span>');
+  await sleep(700);
+  callState.textContent = 'IN CALL · capturing journey';
+  line('<span class="t-ok">ANSWERED</span> Welcome prompt detected (EN)');
+  setActive(0);
+  await sleep(900);
+  line('Prompt: “Thank you for calling. For sales press 1, support press 2…”');
+  setActive(1);
+  line('<span class="t-warn">Awaiting DTMF</span> — use keypad to continue the journey');
+}
 
-    function endCall() {
-      inCall = false;
-      waveEl.classList.remove('is-active');
-      dialBtn.textContent = 'Start test';
-      callState.textContent = 'IDLE · ready to dial';
-      line('<span class="t-info">CALL ENDED</span> Journey snapshot saved to Discovery');
-      setActive(0);
-    }
+    function function endCall() {
+  inCall = false;
+  setPadIdle(true);
+  waveEl.classList.remove('is-active');
+  dialBtn.textContent = 'Start test';
+  callState.textContent = 'IDLE · ready to dial';
+  line('<span class="t-info">CALL ENDED</span> Journey snapshot saved to Discovery');
+  setActive(0);
+}
 
     dialBtn.addEventListener('click', () => {
       if (inCall) endCall();
@@ -764,6 +778,51 @@
     });
 
     line('<span class="t-info">Klearcom IVR Console ready</span> — start a test to walk the customer journey.');
-  </script>
+
+function setPadIdle(idle) {
+  const padEl = document.getElementById('pad');
+  if (!padEl) return;
+  padEl.classList.toggle('is-idle', !!idle);
+  padEl.setAttribute('aria-disabled', idle ? 'true' : 'false');
+}
+
+function ensurePadKeyHandler() {
+  const padEl = document.getElementById('pad');
+  if (!padEl || padEl.dataset.padBound === '1') return;
+  const fresh = padEl.cloneNode(true);
+  fresh.dataset.padBound = '1';
+  padEl.parentNode.replaceChild(fresh, padEl);
+  fresh.addEventListener('click', onPadKeyClick);
+  setPadIdle(true);
+}
+
+async function onPadKeyClick(event) {
+  const key = event.target.closest('.key')?.dataset.key;
+  if (!key) return;
+  if (!inCall) {
+    line('<span class="t-warn">Start a test first</span> to send DTMF tones.');
+    return;
+  }
+  line('DTMF <span class="t-ok">' + key + '</span> sent');
+  if (key === '2' && step <= 1) {
+    setActive(2);
+    await sleep(500);
+    line('<span class="t-ok">ROUTE OK</span> Support branch selected');
+    setActive(3);
+    await sleep(700);
+    line('Identity prompt playing… PIN requested');
+    setActive(4);
+    await sleep(700);
+    line('<span class="t-ok">TRANSFER</span> Tier-1 queue · estimated 18s');
+    setActive(5);
+    line('<span class="t-ok">MOS 4.2</span> Voice quality within threshold');
+  } else if (key === '1') {
+    setActive(2);
+    line('Sales branch selected · demo path continues on Support (2)');
+  } else {
+    line('<span class="t-warn">Option noted</span> for regression coverage');
+  }
+}
+</script>
 </body>
 </html>
